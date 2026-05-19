@@ -1,0 +1,24 @@
+[book]
+title = "The Otigen Programming Language"
+authors = ["The Pyde Project"]
+language = "en"
+multilingual = false
+src = "src"
+description = "A learning book for Otigen, the smart-contract language of the Pyde blockchain."
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "ayu"
+git-repository-url = "https://github.com/pyde-net/otigen-book"
+edit-url-template = "https://github.com/pyde-net/otigen-book/edit/main/{path}"
+additional-css = []
+no-section-label = false
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true
+limit-results = 30
+heading-split-level = 3
