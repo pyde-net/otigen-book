@@ -13,17 +13,39 @@ Source lives in `src/`; the rendered site is built into `book/`.
 
 ## Status
 
-Draft. Front matter, chapters 1–3, and the table of contents for the whole
-book are written. Later chapters are stubs that will be filled in.
+First-pass draft complete: front matter, 18 chapters across the language
+fundamentals, runtime, and projects, plus six reference appendices. Roughly
+65,000 words. Before publication, the book needs a verification sweep against
+the live codebase and review/edit passes.
 
-## Building locally
+## Installing the Otigen toolchain
+
+To follow along with the book, install the Otigen toolchain (`otic`,
+`pyde-dev`):
+
+```sh
+curl -L https://install.pyde.network/otup | bash
+otup
+```
+
+The first command installs `otup`, the toolchain manager. The second uses
+`otup` to install `otic` and `pyde-dev`.
+
+> Note: the installer infrastructure (`install.pyde.network/otup`) is part of
+> the mainnet preparation work and may not yet be deployed. Until it ships,
+> follow the source-build instructions in
+> [Chapter 1.1](src/ch01-01-installation.md).
+
+## Building this book locally
 
 ```sh
 cargo install mdbook
 mdbook serve --open
 ```
 
-`mdbook serve` watches `src/` and live-reloads.
+`mdbook serve` runs a local server at `127.0.0.1:3000` and watches `src/` for
+changes — it live-reloads in the browser as you edit. The output is written to
+`book/`, which is in `.gitignore` and never committed.
 
 ## License
 

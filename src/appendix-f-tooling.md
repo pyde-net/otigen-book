@@ -1,9 +1,37 @@
 # Appendix F — Tooling
 
 The Otigen toolchain consists of two binaries: `otic` (the
-compiler) and `pyde-dev` (the project tool). This appendix
+compiler) and `pyde-dev` (the project tool), managed by a
+third binary `otup` (the toolchain manager). This appendix
 covers the CLI surface of each, the `pyde.toml` schema, and
 IDE setup.
+
+## `otup` (toolchain manager)
+
+`otup` is the Otigen equivalent of `rustup` or `foundryup`. It
+installs and updates the toolchain.
+
+```sh
+otup                            Install / update to the latest stable.
+otup install <version>          Install a specific version (e.g. `otup install 0.2.1`).
+otup install nightly            Install the latest nightly build.
+otup update                     Update the toolchain to the latest stable.
+otup list                       List installed versions.
+otup default <version>          Set the default version.
+otup uninstall <version>        Remove a specific version.
+otup --version                  Print otup's own version.
+```
+
+`otup` itself is installed via the curl bootstrap covered in
+[Chapter 1.1](ch01-01-installation.md):
+
+```sh
+$ curl -L https://install.pyde.network/otup | bash
+```
+
+> The installer infrastructure is part of the mainnet prep
+> work and may not be deployed at the time you're reading.
+> Until then, install `otic` and `pyde-dev` from source.
 
 ## `otic`
 

@@ -2,7 +2,6 @@
 title = "The Otigen Programming Language"
 authors = ["The Pyde Project"]
 language = "en"
-multilingual = false
 src = "src"
 description = "A learning book for Otigen, the smart-contract language of the Pyde blockchain."
 

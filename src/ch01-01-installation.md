@@ -1,27 +1,67 @@
 # Installation
 
-The first step is to install Otigen. You'll need two binaries:
+The first step is to install the Otigen toolchain. You'll end up with
+two binaries:
 
-* **`otic`** — the Otigen compiler. It turns `.oti` source files into PVM
+* **`otic`** — the Otigen compiler. Turns `.oti` source files into PVM
   bytecode and an ABI.
-* **`pyde-dev`** — Otigen's project tool. It scaffolds new projects, runs
-  the compiler over a whole `src/` tree, runs your tests inside an
-  embedded virtual machine, and deploys finished contracts to a network.
+* **`pyde-dev`** — Otigen's project tool. Scaffolds new projects, runs
+  the compiler over a whole `src/` tree, executes tests inside an
+  embedded virtual machine, and deploys finished contracts to a
+  network.
 
-Both are written in Rust and installed with `cargo`, Rust's package
-manager. If you don't already have Rust installed, follow the official
-instructions at <https://www.rust-lang.org/tools/install>. You'll need a
-stable Rust toolchain (1.70 or newer).
+You can install both with one command.
 
-## Installing `otic` and `pyde-dev`
+## The recommended way: `otup`
 
-> Note: at the time of writing, Otigen has not yet been published to a
-> public package registry. You install from source by cloning the
-> Pyde polyrepo. Once a stable registry release exists, these
-> instructions will be replaced by a single `cargo install otic
-> pyde-dev` command.
+The Otigen toolchain manager is **`otup`**. It plays the same role for
+Otigen that `rustup` plays for Rust and `foundryup` plays for Foundry:
+one binary that installs, updates, and version-pins the rest of the
+toolchain.
 
-Clone the repositories and install:
+Install `otup` with a single curl:
+
+```sh
+$ curl -L https://install.pyde.network/otup | bash
+```
+
+The command downloads a small bootstrap script, runs it locally, and
+ends with `otup` on your `$PATH`. Then run:
+
+```sh
+$ otup
+```
+
+which installs the latest stable `otic` and `pyde-dev`. After that,
+keeping the toolchain up to date is a single command:
+
+```sh
+$ otup update
+```
+
+> **Status (pre-mainnet).** The `install.pyde.network/otup` endpoint
+> and the binary-release pipeline that backs it are part of the
+> mainnet preparation work. At the time you're reading this, they may
+> not be deployed yet — in which case the curl above will fail, and
+> you should fall back to the build-from-source instructions below.
+> When the installer ships, this section becomes the canonical path
+> and the source-build form moves to an appendix.
+
+`install.pyde.network/` is the umbrella URL for every Pyde toolchain
+installer; future paths will serve different audiences (a path for
+the validator node, a path for the wallet, etc.). The `/otup` path is
+specifically for the smart-contract toolchain.
+
+## Installing from source
+
+If the `otup` installer isn't available yet, or you'd rather build from
+the latest commits, the source-build path works today.
+
+You'll need a stable Rust toolchain (1.70 or newer). If you don't have
+one, follow the instructions at
+<https://www.rust-lang.org/tools/install>.
+
+Then clone the relevant repositories and install:
 
 ```sh
 $ git clone https://github.com/pyde-net/otic.git
@@ -35,33 +75,7 @@ $ cargo install --path dev
 The two `cargo install` commands compile and copy the binaries into
 `~/.cargo/bin`, which Rust's installer puts on your `$PATH`.
 
-## Checking the installation
-
-Verify that everything is in place:
-
-```sh
-$ otic --version
-otic 0.1.0
-
-$ pyde-dev --version
-pyde-dev 0.1.0
-```
-
-If you see version numbers, you're ready to go. If you see `command not
-found`, double-check that `~/.cargo/bin` is on your `$PATH`. On macOS and
-Linux, you can add it temporarily:
-
-```sh
-$ export PATH="$HOME/.cargo/bin:$PATH"
-```
-
-To make it permanent, add that line to your shell's startup file
-(`~/.bashrc`, `~/.zshrc`, or equivalent).
-
-## Updating and uninstalling
-
-Because the installation is source-based, updating means re-running
-`cargo install --path` after pulling the latest commits in each repo:
+To update, pull the latest commits and re-install with `--force`:
 
 ```sh
 $ cd otic && git pull && cargo install --path . --force
@@ -74,5 +88,29 @@ To uninstall:
 $ cargo uninstall otic
 $ cargo uninstall pyde-dev
 ```
+
+## Checking the installation
+
+Whichever path you used, verify the result:
+
+```sh
+$ otic --version
+otic 0.1.0
+
+$ pyde-dev --version
+pyde-dev 0.1.0
+```
+
+Two version numbers means you're set. If you see `command not found`,
+the binaries aren't on your `$PATH`. For `otup`-installed binaries,
+the directory is `~/.pyde/bin`; for source-built ones, `~/.cargo/bin`.
+On macOS and Linux, add the appropriate directory:
+
+```sh
+$ export PATH="$HOME/.pyde/bin:$HOME/.cargo/bin:$PATH"
+```
+
+Add that line to your shell's startup file (`~/.bashrc`, `~/.zshrc`,
+or equivalent) to make it permanent.
 
 Now that you have the tools, let's write a small program.
