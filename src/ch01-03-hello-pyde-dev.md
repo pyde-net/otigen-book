@@ -179,21 +179,21 @@ use counter::Counter;
 
 contract CounterTest {
     #[test]
-    pub fn counter_starts_at_zero() {
-        let c = Counter::new();
+    fn test_deploy() {
+        let c = deploy!(Counter);
         assert!(c.get_count() == 0);
     }
 
     #[test]
-    pub fn increment_adds_one() {
-        let c = Counter::new();
+    fn test_increment() {
+        let c = deploy!(Counter);
         c.increment();
         assert!(c.get_count() == 1);
     }
 
     #[test]
-    pub fn add_works() {
-        let c = Counter::new();
+    fn test_add() {
+        let c = deploy!(Counter);
         c.add(10);
         c.add(5);
         assert!(c.get_count() == 15);
@@ -202,8 +202,11 @@ contract CounterTest {
 ```
 
 `use counter::Counter;` imports the contract from our `src/` directory.
-Each `#[test]` function deploys a fresh `Counter` (via `Counter::new()`,
-which calls the constructor) and exercises it. Tests are isolated:
+Each `#[test]` function deploys a fresh `Counter` with `deploy!(Counter)`
+(this calls the constructor and gives back a typed handle), then
+exercises it. Tests are *internal* functions — note that they're
+declared with `fn`, not `pub fn`; the test runner promotes them
+internally. Tests are isolated:
 each one gets its own clean virtual machine, so state never leaks
 between them.
 
@@ -213,9 +216,9 @@ Run them with:
 $ pyde-dev test
    Compiling Counter.test.oti
 
-CounterTest::counter_starts_at_zero    PASS  (gas: 28_140)
-CounterTest::increment_adds_one        PASS  (gas: 41_926)
-CounterTest::add_works                 PASS  (gas: 56_318)
+CounterTest::test_deploy        PASS  (gas: 28_140)
+CounterTest::test_increment     PASS  (gas: 41_926)
+CounterTest::test_add           PASS  (gas: 56_318)
 
   3 passed, 0 failed (38ms)
 ```
@@ -236,7 +239,7 @@ use counter::Counter;
 
 contract Deploy {
     pub fn run() {
-        let counter = deploy! Counter::new();
+        let counter = deploy!(Counter);
         // The deployer prints the address.
     }
 }
@@ -244,7 +247,10 @@ contract Deploy {
 
 `deploy!` is a built-in macro that constructs a contract on-chain and
 returns a typed handle (`Contract<Counter>`) you can call further
-methods on. Run the script against your local devnet:
+methods on. If the constructor takes arguments, pass them after the
+contract name: `deploy!(Counter, arg1, arg2)`. If the constructor is
+`#[payable]`, attach a value: `deploy!(Counter, arg, value: 1000)`.
+Run the script against your local devnet:
 
 ```sh
 $ pyde-dev script script/Deploy.oti:Deploy --network devnet

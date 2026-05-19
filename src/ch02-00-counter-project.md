@@ -70,42 +70,16 @@ one: if you don't declare a constructor, the contract simply gets a
 "do nothing" deployment. The contract still has to be deployed (a
 deployment transaction will be sent), but no init code runs.
 
-### A first error: arithmetic overflow
+### A first guarantee: checked arithmetic
 
-Let's see what happens if we try to overflow. Add a test:
+`self.count + 1` is *checked* arithmetic. If `self.count` were already
+at its maximum value (`u64` can hold up to 2⁶⁴−1), the addition would
+revert the transaction instead of wrapping silently to `0`.
 
-<span class="filename">Filename: test/Counter.test.oti</span>
-
-```otigen
-use counter::Counter;
-
-contract CounterTest {
-    #[test]
-    pub fn overflow_reverts() {
-        let c = Counter::new();
-        // Set count to u64::MAX directly via a cheatcode, then increment.
-        c.set_count_for_test(u64::MAX);
-        c.increment(); // <-- this should revert
-    }
-}
-```
-
-Run it:
-
-```sh
-$ pyde-dev test
-error: contract `Counter` has no public function `set_count_for_test`
-```
-
-The compiler refuses because we never declared `set_count_for_test`.
-Good. We don't actually want a write-anything helper in production
-code; the test would be exercising a state we can reach by calling
-`increment` enough times. We'll set that aside for now and come back
-to overflow testing in [Chapter 11](ch11-01-how.md).
-
-The takeaway: **all Otigen arithmetic is checked**. Adding to a `u64`
-that's already at its maximum reverts the transaction. There's no
-`unchecked { … }` escape hatch.
+Otigen has no `unchecked { … }` escape hatch — every numeric
+operation is checked, always. We'll exercise the property formally
+in [Chapter 11](ch11-01-how.md); the point for now is that you don't
+have to remember to guard arithmetic. The runtime guards it for you.
 
 ## Per-user counters with `Map`
 
@@ -217,26 +191,31 @@ Build, and let's also update the test:
 
 ```otigen
 use counter::Counter;
+use std::vm;
 
 contract CounterTest {
     #[test]
-    pub fn fresh_counter_is_zero() {
-        let c = Counter::new();
-        assert!(c.get(0x0_addr) == 0);
+    fn fresh_counter_is_zero() {
+        let c = deploy!(Counter);
+        assert!(c.get(Address::ZERO) == 0);
     }
 
     #[test]
-    pub fn increment_bumps_one() {
-        let c = Counter::new();
+    fn increment_bumps_one() {
+        let c = deploy!(Counter);
         c.increment(); // msg.sender is the test contract itself
         assert!(c.get(address(self)) == 1);
     }
 
     #[test]
-    pub fn each_user_has_their_own() {
-        let c = Counter::new();
-        c.increment();
-        assert!(c.get(0xdead_addr) == 0);
+    fn each_user_has_their_own() {
+        let vm_h = Vm::at(
+            0xCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC as Address
+        );
+        let alice = vm_h.makeAddr(1);
+        let c = deploy!(Counter);
+        c.increment(); // increments the test contract's count
+        assert!(c.get(alice) == 0); // alice never called increment
     }
 }
 ```
@@ -252,17 +231,23 @@ CounterTest::each_user_has_their_own     PASS  (gas: 52_318)
   3 passed, 0 failed (32ms)
 ```
 
-Three things to note about the tests:
+A few things to note about the tests:
 
-* `0x0_addr` and `0xdead_addr` are *address literals*. The `_addr`
-  suffix on a hex literal turns it into an `Address`.
+* Test functions are declared `fn` (not `pub fn`). The test runner
+  promotes them internally; you don't have to expose them as ABI
+  entries.
+* `Address::ZERO` is the built-in zero-address sentinel. To get a
+  *specific non-zero* address in tests, we use the `Vm` cheatcode
+  interface from `std::vm`: `Vm::at(0xCC…CC as Address)` gives us a
+  handle, and `vm_h.makeAddr(seed)` derives a deterministic test
+  address from a seed.
 * `address(self)` is a built-in that returns the contract's own
   address. Inside a test contract, that's the address that called
   the `Counter` we just deployed — which is what `msg.sender` was
   inside `Counter::increment`.
-* `each_user_has_their_own` deliberately checks an address that
-  *hasn't* incremented. The result is `0`, demonstrating that map
-  entries default to the value's zero.
+* `each_user_has_their_own` deliberately checks Alice's count without
+  incrementing on her behalf. The result is `0`, demonstrating that
+  map entries default to the value's zero.
 
 ## Adding a maximum with a typed error
 
@@ -317,41 +302,52 @@ preconditions. If `condition` is `false`, the runtime reverts the
 transaction with `error_value` as the revert data. If `condition` is
 `true`, the function continues.
 
-A test for the new behaviour:
+A test for the new behaviour. Otigen borrows Rust's
+`#[should_panic]` attribute for "this test is expected to revert":
 
 <span class="filename">Filename: test/Counter.test.oti</span>
 
 ```otigen
 #[test]
-pub fn exceeding_the_max_reverts() {
-    let c = Counter::new();
+fn first_100_increments_succeed() {
+    let c = deploy!(Counter);
     let mut i = 0;
     while i < 100 {
         c.increment();
         i = i + 1;
     }
     assert!(c.get(address(self)) == 100);
+}
 
-    // The 101st call must revert.
-    let (ok, _) = try c.increment();
-    assert!(!ok);
+#[test]
+#[should_panic(expected = "MaxReached")]
+fn exceeding_the_max_reverts() {
+    let c = deploy!(Counter);
+    let mut i = 0;
+    while i < 101 {
+        c.increment(); // the 101st call reverts
+        i = i + 1;
+    }
 }
 ```
 
-`try c.increment()` is Otigen's expression for "call this thing and
-give me back `(success, return_data)` instead of bubbling the revert".
-It's the right tool for tests that *expect* a revert.
+The `#[should_panic]` attribute tells the test runner the test is
+expected to revert. The optional `expected = "..."` argument matches
+on the *error type name*; if the test reverts with anything other
+than `MaxReached`, the test still fails. If you drop the `expected`
+clause, any revert counts as a pass.
 
-Run it:
+Run them:
 
 ```sh
-$ pyde-dev test --filter exceeding_the_max
-CounterTest::exceeding_the_max_reverts   PASS  (gas: 4_120_500)
+$ pyde-dev test --filter max
+CounterTest::first_100_increments_succeed    PASS  (gas: 4_118_300)
+CounterTest::exceeding_the_max_reverts       PASS  (gas: 4_120_500)
 ```
 
-It passes. The 101st `increment` reverts with `MaxReached { owner:
-…, max: 100 }`, our test catches the revert, and asserts the call
-failed.
+The 101st `increment` in the second test reverts with `MaxReached`,
+the test runner sees the matching error name, and the test counts
+as a pass.
 
 ## Switching on an `enum`
 
@@ -461,13 +457,15 @@ Otigen surface a typical contract uses:
 * `contract`, `storage`, `event`, `error`, `enum` blocks
 * `pub fn` with parameters, return types, and bodies
 * `self.field`, `Map<K, V>` indexing, lazy zero-initialisation
-* `msg.sender`, `address(self)`, address literals
+* `msg.sender`, `address(self)`, `Address::ZERO`
 * `let` bindings (and a `mut` one in the test)
 * The `+`, `<`, and `==` operators (all checked, all type-safe)
 * The `match` control flow with exhaustive arms
 * `require!`, `revert!`, `emit` macros
-* `try` for catching reverts in tests
-* `#[test]` for unit tests
+* `#[test]` and `#[should_panic(expected = "...")]` for unit tests
+* `Vm::at(...)` and `vm.makeAddr(seed)` for deterministic test
+  addresses
+* `deploy!(Counter)` for instantiating a contract inside a test
 
 The next chapter walks through each of these concepts *systematically*,
 one section at a time, with smaller examples that focus on a single

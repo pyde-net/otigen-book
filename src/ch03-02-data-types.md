@@ -130,12 +130,21 @@ the all-zeros 32-byte value. It's commonly used in events like
 from nowhere".
 
 Two addresses compare for equality with `==` and `!=`. Otigen does
-not implicitly convert between `Address` and integer types; if you
-need an address from a hex literal, use the `_addr` suffix:
+not implicitly convert between `Address` and integer types. To
+materialise a specific address from a hex literal, write a 256-bit
+hex value and cast it to `Address` with the `as` keyword:
 
 ```otigen
-let team: Address = 0xa1b2c3d4_addr;
+let team: Address = 0xa1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4 as Address;
 ```
+
+You'll mostly see this form in deployment scripts and constants —
+contract code itself almost never hard-codes addresses, because the
+addresses it cares about are passed in as parameters or computed
+from `msg.sender`. Inside tests, the canonical way to get a
+non-zero address is the `vm.makeAddr(seed)` cheatcode from
+`std::vm`, which derives a deterministic test address from a `u64`
+seed.
 
 ### Strings and Bytes
 

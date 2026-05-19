@@ -1,5 +1,17 @@
 # Storage and Maps
 
-> **Status:** stub — to be written.
+Every smart contract has *state*. State that needs to outlive a
+single function call is *persistent state*, and persistent state in
+Otigen lives in the `storage { … }` block.
 
-This chapter is about Otigen's distinctive feature: the typed `storage` block and the `Map<K, V>` type that lives inside it. We'll cover what goes in storage, how the compiler lays out slots, how maps and nested maps are accessed, and the lazy-allocation semantics that let unused entries cost nothing.
+In this chapter we'll cover four things:
+
+- How the `storage` block is declared and what types can go in it.
+- How `Map<K, V>`, Otigen's built-in associative type, works.
+- How the compiler assigns slot numbers to your fields — and why you
+  almost never need to think about them.
+- The *lazy allocation* model: why an unread map entry costs
+  nothing, and what the zero value of each type is.
+
+We've already used storage in [Chapter 2](ch02-00-counter-project.md);
+this chapter is the systematic explanation.
