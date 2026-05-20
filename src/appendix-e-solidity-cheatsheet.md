@@ -375,7 +375,7 @@ cheatcode-address derived from `0xCC...CC`.
 forge script script/Deploy.s.sol:Deploy --rpc-url $RPC
 
 # Otigen
-pyde-dev script script/Deploy.oti:Deploy --network devnet
+wright script script/Deploy.oti:Deploy --network devnet
 ```
 
 Same shape, different binary name.
@@ -393,7 +393,7 @@ biggest mental shifts are:
 - **No `tx.origin`** — the global doesn't exist.
 - **`hash(...)` is Poseidon2**, not Keccak-256.
 - **Tests are contract functions with `#[test]`**, ran via
-  `pyde-dev test` against an embedded PVM.
+  `wright test` against an embedded PVM.
 
 The vocabulary is different in places; the *shape* of what
 you're writing is the same.

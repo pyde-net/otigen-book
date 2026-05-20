@@ -28,7 +28,7 @@ contract Playground {
 Save and try to build:
 
 ```sh
-$ pyde-dev build
+$ wright build
 error: cannot assign to immutable binding `x`
   --> src/Playground.oti:5:9
    |
@@ -78,7 +78,7 @@ contract Playground {
 When you build the program now, it compiles cleanly:
 
 ```sh
-$ pyde-dev build
+$ wright build
    Compiling Playground.oti
    Wrote out/Playground.json
 ```
@@ -154,7 +154,7 @@ contract Playground {
 ```
 
 ```sh
-$ pyde-dev build
+$ wright build
 error: 'x' is already defined in this scope (first defined at src/Playground.oti:3:13)
   --> src/Playground.oti:4:13
    |

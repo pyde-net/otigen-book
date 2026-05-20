@@ -31,7 +31,7 @@ the live codebase and review/edit passes.
 ## Installing the Otigen toolchain
 
 To follow along with the book, install the Otigen toolchain (`otic`,
-`pyde-dev`):
+`wright`):
 
 ```sh
 curl -L https://install.pyde.network/otup | bash
@@ -39,7 +39,7 @@ otup
 ```
 
 The first command installs `otup`, the toolchain manager. The second uses
-`otup` to install `otic` and `pyde-dev`.
+`otup` to install `otic` and `wright`.
 
 > Note: the installer infrastructure (`install.pyde.network/otup`) is part of
 > the mainnet preparation work and may not yet be deployed. Until it ships,

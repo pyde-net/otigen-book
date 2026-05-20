@@ -1,15 +1,15 @@
-# Hello, `pyde-dev`!
+# Hello, `wright`!
 
-`pyde-dev` is Otigen's project tool. It plays the same role that Cargo
+`wright` is Otigen's project tool. It plays the same role that Cargo
 plays for Rust or Foundry plays for Solidity: it scaffolds new
 projects, runs the compiler across an entire `src/` tree, executes
 tests inside an embedded virtual machine, formats source files, and
 deploys finished contracts to a network.
 
-Most non-trivial Otigen work happens inside a `pyde-dev` project, not
+Most non-trivial Otigen work happens inside a `wright` project, not
 in a single `.oti` file. Let's see why.
 
-## Creating a project with `pyde-dev init`
+## Creating a project with `wright init`
 
 If you're still in the `hello_otigen` directory from the previous
 section, step out of it:
@@ -21,7 +21,7 @@ $ cd ..
 Now scaffold a new project:
 
 ```sh
-$ pyde-dev init counter
+$ wright init counter
   Initialized project 'counter'
 
   counter/
@@ -39,11 +39,11 @@ $ pyde-dev init counter
 
   Get started:
     cd counter
-    pyde-dev build
-    pyde-dev test
+    wright build
+    wright test
 ```
 
-`pyde-dev init counter` created a directory called `counter` and
+`wright init counter` created a directory called `counter` and
 populated it with a working skeleton: a starter contract, a starter
 test, a project manifest, and the standard library.
 
@@ -92,7 +92,7 @@ out = "out"
 rpc = "http://127.0.0.1:8545"
 ```
 
-`name` and `version` identify the project. `[compiler]` tells `pyde-dev`
+`name` and `version` identify the project. `[compiler]` tells `wright`
 where to find sources, where to write artifacts, and whether to ask
 `otic` to optimize. `[networks]` lists destinations a deployment
 script can target by name.
@@ -157,14 +157,14 @@ the methods after.
 From inside the `counter` directory, run:
 
 ```sh
-$ pyde-dev build
+$ wright build
   src/Counter.oti — Counter (556 bytes, 139 instructions)
   compiled in 0.00s
 
   1 contract(s) compiled, 556 bytes total bytecode
 ```
 
-`pyde-dev build` walks `src/`, hands every `.oti` file to `otic`, and
+`wright build` walks `src/`, hands every `.oti` file to `otic`, and
 puts the resulting `.json` artifacts in `out/`. Each artifact is named
 after the contract (`out/Counter.json`), not the source file — one
 contract per `.json`. If you change a source file and rebuild, only
@@ -215,7 +215,7 @@ between them.
 Run them with:
 
 ```sh
-$ pyde-dev test
+$ wright test
   Building contracts...
   Counter — unchanged, skipped
   compiled in 0.00s
@@ -271,21 +271,21 @@ contract name: `deploy!(Counter, arg1, arg2)`. If the constructor is
 Run the script against your local devnet:
 
 ```sh
-$ pyde-dev script script/Deploy.oti:Deploy --network devnet
+$ wright script script/Deploy.oti:Deploy --network devnet
   Deploying Counter to devnet...
   Deployed Counter at 0xa1b2c3...
   Deploy complete
 ```
 
-> **Status note.** Running `pyde-dev script` against `devnet`
+> **Status note.** Running `wright script` against `devnet`
 > requires a working Pyde node listening on the configured RPC
 > endpoint. The post-pivot node + JSON-RPC layer is being rebuilt
 > against the new consensus; until it ships, the deploy step
-> won't connect anywhere real. `pyde-dev build` and `pyde-dev
+> won't connect anywhere real. `wright build` and `wright
 > test` work today because they don't need a node — `test` runs
 > against the embedded PVM in-process.
 
 We're done for now. You've installed the tooling, written a
-program in two different shapes, used `pyde-dev` to scaffold and
+program in two different shapes, used `wright` to scaffold and
 build a project, and watched a test suite pass. That's enough of
 the mechanics; let's now write something a little more interesting.

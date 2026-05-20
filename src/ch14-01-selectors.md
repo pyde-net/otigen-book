@@ -140,7 +140,7 @@ The deploy script and the build pipeline can both surface
 selectors when needed:
 
 ```sh
-$ pyde-dev abi out/Token.json | grep transfer
+$ wright abi out/Token.json | grep transfer
 transfer: 0xa9059cbb
 ```
 

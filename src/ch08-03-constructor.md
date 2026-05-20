@@ -79,7 +79,7 @@ let new_market = deploy!(Market, base_token, quote_token);
 ```
 
 **From a test**, also via `deploy!`. The starter template you saw
-in [Chapter 1](ch01-03-hello-pyde-dev.md) uses this form:
+in [Chapter 1](ch01-03-hello-wright.md) uses this form:
 
 ```otigen
 #[test]

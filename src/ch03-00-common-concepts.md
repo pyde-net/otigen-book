@@ -17,5 +17,5 @@ Code in this chapter usually appears inside a `contract Demo { … }`
 block. Otigen doesn't have a way to run "loose" expressions outside
 of a contract — everything compiles to PVM bytecode that the runtime
 loads as a contract. If you'd like to try the snippets, drop them
-into a `pub fn` body in `src/Demo.oti` and `pyde-dev build` from a
+into a `pub fn` body in `src/Demo.oti` and `wright build` from a
 project root.

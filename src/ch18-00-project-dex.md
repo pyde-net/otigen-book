@@ -36,7 +36,7 @@ preserves `k` (modulo the fee); every liquidity event scales
 ## 18.2 Scaffolding
 
 ```sh
-$ pyde-dev init dex
+$ wright init dex
 $ cd dex
 $ rm src/Counter.oti test/Counter.test.oti
 $ touch src/Pool.oti test/Pool.test.oti

@@ -34,7 +34,7 @@ the receipt adds.
 ## Reading the payload from a script
 
 The most common consumer of a revert payload is a deployment or
-maintenance script. Otigen's `pyde-dev` script runner decodes
+maintenance script. Otigen's `wright` script runner decodes
 known errors automatically. A script that calls a contract method
 and catches the revert sees the typed error directly:
 

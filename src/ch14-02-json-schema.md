@@ -13,7 +13,7 @@ compiler) produces exactly this shape.
 
 ## A worked example: the starter `Counter`
 
-`pyde-dev init`'s starter `Counter` contract:
+`wright init`'s starter `Counter` contract:
 
 ```otigen
 contract Counter {
@@ -32,7 +32,7 @@ contract Counter {
 }
 ```
 
-After `pyde-dev build`, `out/Counter.json` looks like this (the
+After `wright build`, `out/Counter.json` looks like this (the
 bytecode is truncated for display):
 
 ```json
@@ -120,7 +120,7 @@ storage even when no source-level constructor is declared.
 The runtime portion — what gets stored at the contract's address
 and runs on every subsequent call. This is what other contracts
 calling yours actually invoke. Tools that compare deployed
-bytecode against source-built bytecode (`pyde-dev verify`) compare
+bytecode against source-built bytecode (`wright verify`) compare
 this field.
 
 ### `instructionCount`

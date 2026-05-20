@@ -172,5 +172,5 @@ to `String` and the build succeeds again.
 
 You've now written and compiled an Otigen program. Real projects, of
 course, are bigger than one file. In the next section we'll use
-`pyde-dev` to scaffold a multi-file project with tests and deployment
+`wright` to scaffold a multi-file project with tests and deployment
 scripts.

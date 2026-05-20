@@ -55,7 +55,7 @@ add proposals, add confirmations, then the execution step.
 ## 17.2 Scaffolding
 
 ```sh
-$ pyde-dev init multisig
+$ wright init multisig
 $ cd multisig
 $ rm src/Counter.oti test/Counter.test.oti
 $ touch src/Multisig.oti test/Multisig.test.oti

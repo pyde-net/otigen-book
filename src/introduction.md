@@ -6,7 +6,7 @@ Otigen is a domain-specific language for writing smart contracts that
 execute on the [Pyde](https://github.com/pyde-net) blockchain. Source files
 use the `.oti` extension. The compiler is called `otic`. Its output is a
 JSON artifact (a `.json` file) that contains PVM bytecode, an ABI, and
-metadata — deployable directly via the `pyde-dev` toolchain or by any
+metadata — deployable directly via the `wright` toolchain or by any
 client that speaks Pyde's JSON-RPC.
 
 Otigen is **not** a general-purpose language. It compiles to the Pyde

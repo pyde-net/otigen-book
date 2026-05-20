@@ -8,7 +8,7 @@ handful of attributes. Future chapters explore each of these in
 detail; in this chapter, you'll just practice the fundamentals.
 
 We'll implement the classic "counter" — but a little more interesting
-than the one `pyde-dev init` gave us. Our counter will be *per-user*:
+than the one `wright init` gave us. Our counter will be *per-user*:
 every address gets its own count. We'll let users increment their own
 counters, query anyone's count, and respect a maximum value with a
 proper typed error. Along the way the compiler will catch our
@@ -16,7 +16,7 @@ mistakes for us.
 
 ## Setting up the project
 
-If you completed [Chapter 1](ch01-03-hello-pyde-dev.md), you already
+If you completed [Chapter 1](ch01-03-hello-wright.md), you already
 have a project called `counter` with a starter `Counter` contract.
 We'll replace its contents step by step. From inside the project:
 
@@ -55,7 +55,7 @@ contract Counter {
 Build it:
 
 ```sh
-$ pyde-dev build
+$ wright build
   src/Counter.oti — Counter (... bytes, ... instructions)
   compiled in 0.00s
 
@@ -138,7 +138,7 @@ only when we write a non-zero value.
 Build:
 
 ```sh
-$ pyde-dev build
+$ wright build
   src/Counter.oti — Counter (... bytes, ... instructions)
   compiled in 0.00s
 
@@ -227,7 +227,7 @@ contract CounterTest {
 Run the tests:
 
 ```sh
-$ pyde-dev test
+$ wright test
   Building contracts...
   Counter — compiled
   compiled in 0.00s
@@ -357,7 +357,7 @@ clause, any revert counts as a pass.
 Run them:
 
 ```sh
-$ pyde-dev test --filter max
+$ wright test --filter max
   test/Counter.test.oti
     PASS first_100_increments_succeed (... gas)
     PASS exceeding_the_max_reverts (... gas)
@@ -460,7 +460,7 @@ as possible.
 Build and run all of the tests:
 
 ```sh
-$ pyde-dev test
+$ wright test
 CounterTest::fresh_counter_is_zero       PASS  (gas:   26_140)
 CounterTest::increment_bumps_one         PASS  (gas:   53_926)
 CounterTest::each_user_has_their_own     PASS  (gas:   58_318)

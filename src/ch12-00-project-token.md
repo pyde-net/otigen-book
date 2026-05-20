@@ -24,10 +24,10 @@ contract that builds, and the next step extends it.
 ## 12.1 Setting up the project
 
 If you don't already have a project ready, scaffold one with
-`pyde-dev`:
+`wright`:
 
 ```sh
-$ pyde-dev init pyde_token
+$ wright init pyde_token
 $ cd pyde_token
 $ rm src/Counter.oti test/Counter.test.oti
 $ touch src/Token.oti test/Token.test.oti
@@ -76,7 +76,7 @@ contract PydeToken {
 Build it:
 
 ```sh
-$ pyde-dev build
+$ wright build
    Compiling Token.oti
    Wrote out/PydeToken.json
 ```
@@ -361,7 +361,7 @@ a user's balance and the token's metadata.
 The full contract now exists. Build it:
 
 ```sh
-$ pyde-dev build
+$ wright build
    Compiling Token.oti
    Wrote out/PydeToken.json
 ```
@@ -496,7 +496,7 @@ revert) and pinpoints regressions.
 Run the suite:
 
 ```sh
-$ pyde-dev test
+$ wright test
   Building contracts...
   PydeToken — compiled
   compiled in 0.01s
@@ -535,13 +535,13 @@ contract Deploy {
 Run against the local devnet:
 
 ```sh
-$ pyde-dev script script/Deploy.oti:Deploy --network devnet
+$ wright script script/Deploy.oti:Deploy --network devnet
   Deploying PydeToken to devnet...
   Deployed PydeToken at 0xa1b2c3...
   Deploy complete
 ```
 
-> **Status note.** `pyde-dev script` against `devnet` requires a
+> **Status note.** `wright script` against `devnet` requires a
 > running Pyde node serving JSON-RPC. The post-pivot node is
 > being rebuilt against the new consensus; until it ships, the
 > script step won't connect anywhere real. The build and test

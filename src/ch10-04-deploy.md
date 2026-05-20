@@ -163,11 +163,11 @@ contract Deploy {
 }
 ```
 
-`pyde-dev script script/Deploy.oti:Deploy --network devnet`
+`wright script script/Deploy.oti:Deploy --network devnet`
 runs `Deploy::run()` against the named network. The deployed
 contract addresses are printed to the console for the operator
 to record. We covered the mechanics in
-[Chapter 1.3](ch01-03-hello-pyde-dev.md); this section just
+[Chapter 1.3](ch01-03-hello-wright.md); this section just
 notes that the same `deploy!` you use from inside a contract is
 the one a script uses too.
 

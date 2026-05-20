@@ -95,8 +95,8 @@ contract Token {
 }
 ```
 
-The metadata produced by `pyde-dev build` includes the doc text
-verbatim. Tools like `pyde-dev doc` render it into HTML or Markdown
+The metadata produced by `wright build` includes the doc text
+verbatim. Tools like `wright doc` render it into HTML or Markdown
 reference pages.
 
 A guideline:

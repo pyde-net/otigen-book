@@ -1,7 +1,7 @@
 # Appendix F — Tooling
 
 The Otigen toolchain consists of two binaries: `otic` (the
-compiler) and `pyde-dev` (the project tool), managed by a
+compiler) and `wright` (the project tool), managed by a
 third binary `otup` (the toolchain manager). This appendix
 covers the CLI surface of each, the `pyde.toml` schema, and
 IDE setup.
@@ -31,7 +31,7 @@ $ curl -L https://install.pyde.network/otup | bash
 
 > The installer infrastructure is part of the mainnet prep
 > work and may not be deployed at the time you're reading.
-> Until then, install `otic` and `pyde-dev` from source.
+> Until then, install `otic` and `wright` from source.
 
 ## `otic`
 
@@ -48,12 +48,12 @@ otic --version, -V              Print version.
 otic --help, -h                 Show help.
 ```
 
-You'll rarely invoke `otic` directly; `pyde-dev build` runs it
+You'll rarely invoke `otic` directly; `wright build` runs it
 across your `src/` tree. But it's useful for one-off compiles
 and for inspecting artifacts. `otic test` lets you run a single
 file's `#[test]` functions without the project scaffolding.
 
-## `pyde-dev`
+## `wright`
 
 The project tool. Inspired by Cargo and Foundry. Provides
 project scaffolding, build, test, deploy, format, console, and
@@ -62,55 +62,55 @@ network operations.
 **Project lifecycle:**
 
 ```sh
-pyde-dev init <name>            Scaffold a new project.
-pyde-dev build                  Compile every .oti file under src/.
-pyde-dev test [--filter X]      Run #[test] functions in test/.
-pyde-dev fmt [--check]          Auto-format .oti files (--check exits non-zero on diff).
-pyde-dev clean                  Remove out/ (build artifacts).
-pyde-dev doc                    Generate docs from /// comments.
+wright init <name>            Scaffold a new project.
+wright build                  Compile every .oti file under src/.
+wright test [--filter X]      Run #[test] functions in test/.
+wright fmt [--check]          Auto-format .oti files (--check exits non-zero on diff).
+wright clean                  Remove out/ (build artifacts).
+wright doc                    Generate docs from /// comments.
 ```
 
 **Package management:**
 
 ```sh
-pyde-dev install [url] [--rev R]  Install a package from a git URL, or restore from pyde.lock.
-pyde-dev remove <name>            Remove an installed package.
+wright install [url] [--rev R]  Install a package from a git URL, or restore from pyde.lock.
+wright remove <name>            Remove an installed package.
 ```
 
 **Network operations:**
 
 ```sh
-pyde-dev deploy <file>:<C> --network <net>     Deploy a contract.
-pyde-dev script <file>:<C> --network <net>     Run a deployment/migration script.
-pyde-dev call    <addr> <fn>(<args>)  --network <net>  Read-only call (no tx, no signing).
-pyde-dev send    <addr> <fn>(<args>)  --network <net>  State-changing tx (signed).
-pyde-dev transfer <addr> <amount>     --network <net>  Native PYDE transfer.
-pyde-dev tx       <txhash>            --network <net>  Check transaction status / receipt.
-pyde-dev verify   <addr> <file>:<C>   --network <net>  Verify a deployed contract matches local source.
-pyde-dev console  --network <net>     Interactive REPL.
+wright deploy <file>:<C> --network <net>     Deploy a contract.
+wright script <file>:<C> --network <net>     Run a deployment/migration script.
+wright call    <addr> <fn>(<args>)  --network <net>  Read-only call (no tx, no signing).
+wright send    <addr> <fn>(<args>)  --network <net>  State-changing tx (signed).
+wright transfer <addr> <amount>     --network <net>  Native PYDE transfer.
+wright tx       <txhash>            --network <net>  Check transaction status / receipt.
+wright verify   <addr> <file>:<C>   --network <net>  Verify a deployed contract matches local source.
+wright console  --network <net>     Interactive REPL.
 ```
 
 **Wallet management:**
 
 ```sh
-pyde-dev wallet new <name>              Generate a new keypair.
-pyde-dev wallet import <name>           Import an existing key.
-pyde-dev wallet list                    List stored wallets.
-pyde-dev wallet show <name>             Print address (not secret).
-pyde-dev wallet sign <name> <bytes>     Sign arbitrary bytes.
+wright wallet new <name>              Generate a new keypair.
+wright wallet import <name>           Import an existing key.
+wright wallet list                    List stored wallets.
+wright wallet show <name>             Print address (not secret).
+wright wallet sign <name> <bytes>     Sign arbitrary bytes.
 ```
 
-The two you'll use most are `pyde-dev build` and
-`pyde-dev test`.
+The two you'll use most are `wright build` and
+`wright test`.
 
-### `pyde-dev script`
+### `wright script`
 
 The deployment runner. The format is
 `<file>:<ContractName>`. The named contract is expected to
 have a `pub fn run()` entry point:
 
 ```sh
-pyde-dev script script/Deploy.oti:Deploy --network devnet
+wright script script/Deploy.oti:Deploy --network devnet
 ```
 
 Flags:
@@ -121,18 +121,18 @@ Flags:
   wallet).
 - `--wallet <name>` — name of a stored wallet to sign with.
 
-### `pyde-dev test`
+### `wright test`
 
 The test runner. Compiles `test/*.oti` and executes every
 `#[test]` function inside an embedded PVM. The output reports
 PASS/FAIL plus the gas consumed by each test.
 
 ```sh
-pyde-dev test                          Run all tests.
-pyde-dev test --filter increment       Only tests with "increment" in the name.
-pyde-dev test -v                       Show call tree on failure.
-pyde-dev test -vv                      Show storage state.
-pyde-dev test -vvv                     Show full logs.
+wright test                          Run all tests.
+wright test --filter increment       Only tests with "increment" in the name.
+wright test -v                       Show call tree on failure.
+wright test -vv                      Show storage state.
+wright test -vvv                     Show full logs.
 ```
 
 ## `pyde.toml` schema
@@ -167,10 +167,10 @@ Sections:
 - **`[compiler]`** — `optimize` (bool), `src`/`test`/`out`
   directory names.
 - **`[networks.<name>]`** — one section per network. Each
-  has an `rpc` URL. `pyde-dev script --network <name>`
+  has an `rpc` URL. `wright script --network <name>`
   references these.
 - **`[dependencies]`** — installed packages, populated by
-  `pyde-dev install`. You usually don't edit this by hand.
+  `wright install`. You usually don't edit this by hand.
 
 ## Project layout
 
@@ -191,7 +191,7 @@ project/
 └── pyde.lock          Lockfile for dependencies
 ```
 
-`pyde-dev init` scaffolds this entire layout.
+`wright init` scaffolds this entire layout.
 
 ## The standard library
 
@@ -211,14 +211,14 @@ Import with `use std::vm;` (or `use std::math::{sqrt}`, etc.).
 ## Installing packages
 
 ```sh
-pyde-dev install https://github.com/example/pyde-erc20.git
-pyde-dev install https://github.com/example/pyde-multisig.git --rev v0.2.0
-pyde-dev install         # Restore all from pyde.lock
+wright install https://github.com/example/pyde-erc20.git
+wright install https://github.com/example/pyde-multisig.git --rev v0.2.0
+wright install         # Restore all from pyde.lock
 ```
 
 Packages are cloned into `lib/<name>/` and recorded in
 `pyde.toml` (in `[dependencies]`) and `pyde.lock`. Use the
-lockfile-restore form (`pyde-dev install` with no args) to
+lockfile-restore form (`wright install` with no args) to
 re-create a project's dependency tree from a committed
 lockfile.
 
@@ -237,7 +237,7 @@ your editor:
 
 A language server (LSP) is in development. Until it lands,
 syntax highlighting + the inline error reporting from
-`pyde-dev build` is the editor workflow.
+`wright build` is the editor workflow.
 
 ## Continuous integration
 
@@ -257,38 +257,38 @@ jobs:
           cargo install --git https://github.com/pyde-net/otic.git
           cargo install --git https://github.com/pyde-net/dev.git
       - name: Build
-        run: pyde-dev build
+        run: wright build
       - name: Test
-        run: pyde-dev test
+        run: wright test
       - name: Format check
-        run: pyde-dev fmt --check
+        run: wright fmt --check
 ```
 
-The `--check` flag on `pyde-dev fmt` returns non-zero if any
+The `--check` flag on `wright fmt` returns non-zero if any
 file isn't formatted — useful as a CI gate.
 
 ## Wallet storage
 
-The `pyde-dev wallet` subcommands listed above operate on
+The `wright wallet` subcommands listed above operate on
 locally-stored encrypted wallets. Wallets are encrypted with a
 password the tool prompts for (Argon2 + AES-GCM); the
-encrypted material lives at `~/.config/pyde-dev/wallets/`.
+encrypted material lives at `~/.config/wright/wallets/`.
 
 For CI / scripts, the `--private-key <hex>` flag on
-`pyde-dev script` and `pyde-dev send` lets you pass a key
+`wright script` and `wright send` lets you pass a key
 without using the wallet store. Use this only for *test*
 keys; never for keys that hold real value.
 
 ## Summary
 
-`otic` compiles `.oti` to `.json`. `pyde-dev` is the project
+`otic` compiles `.oti` to `.json`. `wright` is the project
 tool — scaffold, build, test, deploy, format, console.
 `pyde.toml` is the manifest; `lib/@std/` is the standard
 library; `out/*.json` is what you deploy. IDE support is
 Tree-sitter-based today; LSP is in flight.
 
 That's the entire toolchain. Most days you'll touch only
-`pyde-dev build` and `pyde-dev test`.
+`wright build` and `wright test`.
 
 ---
 

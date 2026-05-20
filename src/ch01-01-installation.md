@@ -5,7 +5,7 @@ two binaries:
 
 * **`otic`** — the Otigen compiler. Turns `.oti` source files into PVM
   bytecode and an ABI.
-* **`pyde-dev`** — Otigen's project tool. Scaffolds new projects, runs
+* **`wright`** — Otigen's project tool. Scaffolds new projects, runs
   the compiler over a whole `src/` tree, executes tests inside an
   embedded virtual machine, and deploys finished contracts to a
   network.
@@ -32,7 +32,7 @@ ends with `otup` on your `$PATH`. Then run:
 $ otup
 ```
 
-which installs the latest stable `otic` and `pyde-dev`. After that,
+which installs the latest stable `otic` and `wright`. After that,
 keeping the toolchain up to date is a single command:
 
 ```sh
@@ -86,7 +86,7 @@ To uninstall:
 
 ```sh
 $ cargo uninstall otic
-$ cargo uninstall pyde-dev
+$ cargo uninstall wright
 ```
 
 ## Checking the installation
@@ -97,8 +97,8 @@ Whichever path you used, verify the result:
 $ otic --version
 otic 0.1.0
 
-$ pyde-dev --version
-pyde-dev 0.1.0
+$ wright --version
+wright 0.1.0
 ```
 
 Two version numbers means you're set. If you see `command not found`,
