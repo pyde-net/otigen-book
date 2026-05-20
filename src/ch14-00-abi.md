@@ -17,7 +17,7 @@ This chapter covers three things:
   4-byte identifier and why collisions are vanishingly
   unlikely.
 - [The JSON schema](ch14-02-json-schema.md) — the structure of
-  the ABI section in a `.pyc` artifact, with a worked example.
+  the ABI section in a `.json` artifact, with a worked example.
 - [Versioning](ch14-03-versioning.md) — what counts as a
   breaking change once a contract is deployed, and the
   strategies for evolving an ABI without breaking consumers.

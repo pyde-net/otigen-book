@@ -158,15 +158,17 @@ From inside the `counter` directory, run:
 
 ```sh
 $ pyde-dev build
-   Compiling Counter.oti
-   Wrote out/Counter.pyc
+  src/Counter.oti — Counter (556 bytes, 139 instructions)
+  compiled in 0.00s
 
-   1 contract built (15ms)
+  1 contract(s) compiled, 556 bytes total bytecode
 ```
 
 `pyde-dev build` walks `src/`, hands every `.oti` file to `otic`, and
-puts the resulting `.pyc` artifacts in `out/`. If you change a source
-file and rebuild, only the affected contracts recompile.
+puts the resulting `.json` artifacts in `out/`. Each artifact is named
+after the contract (`out/Counter.json`), not the source file — one
+contract per `.json`. If you change a source file and rebuild, only
+the affected contracts recompile.
 
 ## Reading and running the test
 
@@ -214,19 +216,35 @@ Run them with:
 
 ```sh
 $ pyde-dev test
-   Compiling Counter.test.oti
+  Building contracts...
+  Counter — unchanged, skipped
+  compiled in 0.00s
 
-CounterTest::test_deploy        PASS  (gas: 28_140)
-CounterTest::test_increment     PASS  (gas: 41_926)
-CounterTest::test_add           PASS  (gas: 56_318)
+  test/Counter.test.oti
+    PASS test_deploy (144311 gas)
+    PASS test_increment (148069 gas)
+    PASS test_add (148118 gas)
 
-  3 passed, 0 failed (38ms)
+  3 passed, 0 failed, 0 skipped (0.01s)
+
+  Gas Profile
+  Test                      Gas Used   % Limit  Status
+  --------------------------------------------------
+  test_add                    148118     0.15%  PASS
+  test_increment              148069     0.15%  PASS
+  test_deploy                 144311     0.14%  PASS
+  --------------------------------------------------
+  Total                       440498
+  Average                     146832
 ```
 
-Each test reports the gas it consumed. That number is exact — the
-test ran the same bytecode and the same VM your deployment will run,
-so the gas accounting matches production. We'll revisit the gas
-model in [Chapter 11](ch11-03-gas-cost.md).
+Each test reports the gas it consumed, and at the end you get a
+sorted gas profile so the most-expensive tests are easy to spot.
+The `% Limit` column is each test's gas usage as a fraction of the
+block gas limit. The gas numbers are exact — the test ran the same
+bytecode and the same VM your deployment will run, so the accounting
+matches production. We'll revisit the gas model in
+[Chapter 11](ch11-03-gas-cost.md).
 
 ## A first script
 
@@ -254,12 +272,20 @@ Run the script against your local devnet:
 
 ```sh
 $ pyde-dev script script/Deploy.oti:Deploy --network devnet
-   Deploying Counter -> 0xa1b2c3...
-   Deploy complete (gas: 124_580)
+  Deploying Counter to devnet...
+  Deployed Counter at 0xa1b2c3...
+  Deploy complete
 ```
+
+> **Status note.** Running `pyde-dev script` against `devnet`
+> requires a working Pyde node listening on the configured RPC
+> endpoint. The post-pivot node + JSON-RPC layer is being rebuilt
+> against the new consensus; until it ships, the deploy step
+> won't connect anywhere real. `pyde-dev build` and `pyde-dev
+> test` work today because they don't need a node — `test` runs
+> against the embedded PVM in-process.
 
 We're done for now. You've installed the tooling, written a
 program in two different shapes, used `pyde-dev` to scaffold and
-build a project, watched a test suite pass, and deployed a contract
-to a local network. That's enough of the mechanics; let's now write
-something a little more interesting.
+build a project, and watched a test suite pass. That's enough of
+the mechanics; let's now write something a little more interesting.

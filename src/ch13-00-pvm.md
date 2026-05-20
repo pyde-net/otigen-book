@@ -13,7 +13,7 @@ working mental model of the machine you're targeting helps with
 two things:
 
 - **Reading other people's bytecode.** When you're auditing a
-  contract whose source you don't have, or debugging a `.pyc`
+  contract whose source you don't have, or debugging a `.json`
   artifact, you'll meet PVM instructions in the wild.
 - **Reasoning about gas costs.** Every Otigen expression compiles
   to a known number of PVM instructions. Once you can see the

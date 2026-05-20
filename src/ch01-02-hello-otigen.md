@@ -93,16 +93,24 @@ compiler directly:
 
 ```sh
 $ otic build Hello.oti
-   Compiling Hello.oti
-   Wrote out/Hello.pyc
+  compiled Hello.oti → Hello.json
+  contract:    Hello
+  bytecode:    332 bytes (83 instructions)
+  constructor: 0 bytes
+  runtime:     332 bytes
+  functions:   1
+  events:      1
+  storage:     0 fields
 ```
 
 The compiler reads `Hello.oti`, type-checks it, runs its safety
-analyses, and emits a `.pyc` file — a JSON artifact that bundles the
-PVM bytecode, the ABI, and metadata. Open `out/Hello.pyc` if you're
-curious; the bytecode is opaque, but the `abi` section is human-readable
-and lists every public function, event, and error your contract
-declared.
+analyses, and writes a `Hello.json` file next to the source. The
+artifact is a JSON document that bundles the PVM bytecode, the ABI,
+the per-function selectors, and the storage layout. Open `Hello.json`
+if you're curious; the bytecode is opaque, but the `abi` section
+inside is human-readable and lists every public function, event, and
+error your contract declared. We'll dissect the artifact format in
+detail in [Chapter 14](ch14-02-json-schema.md).
 
 ## What `otic` is doing
 
@@ -147,21 +155,20 @@ Recompile:
 
 ```sh
 $ otic build Hello.oti
-error: unknown type 'Stringy'
-  --> Hello.oti:3:18
+error: undefined type 'Stringy'
+ --> Hello.oti:3:18
    |
  3 |         message: Stringy,
-   |                  ^^^^^^^ help: did you mean `String`?
-   |
+   |                 ^^^
 
-Compilation failed (1 error).
+1 error emitted
 ```
 
-The error tells you *where* the problem is (file, line, column), *what*
-it is (an unknown type), and offers a suggestion. The Otigen compiler
-takes diagnostic quality seriously; the goal is that you fix the error
-without leaving your editor. Fix the typo back to `String` and the
-build succeeds again.
+The error tells you *where* the problem is (file, line, column) and
+*what* it is (an undefined type). The format is familiar to anyone
+who's used a Rust-style compiler: a single underline pinpointing the
+offending span, then a tail with the error count. Fix the typo back
+to `String` and the build succeeds again.
 
 You've now written and compiled an Otigen program. Real projects, of
 course, are bigger than one file. In the next section we'll use

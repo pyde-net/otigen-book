@@ -35,37 +35,69 @@ $ curl -L https://install.pyde.network/otup | bash
 
 ## `otic`
 
-The compiler. Takes `.oti` source and produces `.pyc`
+The compiler. Takes `.oti` source and produces `.json`
 artifacts (PVM bytecode + ABI + metadata).
 
 ```sh
-otic build <file.oti>           Compile a single file.
-otic build <file.oti> -o <dir>  Write artifact to specific directory.
-otic abi <file.pyc>             Print the ABI section of a .pyc file.
-otic --version                  Print version.
+otic build <file.oti>           Compile .oti to .json bytecode artifact.
+otic check <file.oti>           Type check without codegen.
+otic test <file.oti>            Run #[test] functions on the embedded PVM.
+otic abi <file>                 Print the ABI section of a .json artifact.
+otic lex <file.oti>             Debug: dump the token stream.
+otic --version, -V              Print version.
+otic --help, -h                 Show help.
 ```
 
 You'll rarely invoke `otic` directly; `pyde-dev build` runs it
 across your `src/` tree. But it's useful for one-off compiles
-and for inspecting artifacts.
+and for inspecting artifacts. `otic test` lets you run a single
+file's `#[test]` functions without the project scaffolding.
 
 ## `pyde-dev`
 
 The project tool. Inspired by Cargo and Foundry. Provides
-project scaffolding, build, test, deploy, format, and console.
+project scaffolding, build, test, deploy, format, console, and
+network operations.
+
+**Project lifecycle:**
 
 ```sh
 pyde-dev init <name>            Scaffold a new project.
 pyde-dev build                  Compile every .oti file under src/.
-pyde-dev test [--filter X]      Run tests in test/.
-pyde-dev fmt                    Auto-format .oti files.
-pyde-dev script <file>:<C>      Run a deployment/migration script.
-pyde-dev install [url]          Install a package (or restore from lockfile).
-pyde-dev remove <name>          Remove an installed package.
-pyde-dev console                Interactive REPL connected to a network.
+pyde-dev test [--filter X]      Run #[test] functions in test/.
+pyde-dev fmt [--check]          Auto-format .oti files (--check exits non-zero on diff).
+pyde-dev clean                  Remove out/ (build artifacts).
 pyde-dev doc                    Generate docs from /// comments.
-pyde-dev verify                 Verify a deployed contract against source.
-pyde-dev wallet <subcommand>    Manage signing keys.
+```
+
+**Package management:**
+
+```sh
+pyde-dev install [url] [--rev R]  Install a package from a git URL, or restore from pyde.lock.
+pyde-dev remove <name>            Remove an installed package.
+```
+
+**Network operations:**
+
+```sh
+pyde-dev deploy <file>:<C> --network <net>     Deploy a contract.
+pyde-dev script <file>:<C> --network <net>     Run a deployment/migration script.
+pyde-dev call    <addr> <fn>(<args>)  --network <net>  Read-only call (no tx, no signing).
+pyde-dev send    <addr> <fn>(<args>)  --network <net>  State-changing tx (signed).
+pyde-dev transfer <addr> <amount>     --network <net>  Native PYDE transfer.
+pyde-dev tx       <txhash>            --network <net>  Check transaction status / receipt.
+pyde-dev verify   <addr> <file>:<C>   --network <net>  Verify a deployed contract matches local source.
+pyde-dev console  --network <net>     Interactive REPL.
+```
+
+**Wallet management:**
+
+```sh
+pyde-dev wallet new <name>              Generate a new keypair.
+pyde-dev wallet import <name>           Import an existing key.
+pyde-dev wallet list                    List stored wallets.
+pyde-dev wallet show <name>             Print address (not secret).
+pyde-dev wallet sign <name> <bytes>     Sign arbitrary bytes.
 ```
 
 The two you'll use most are `pyde-dev build` and
@@ -155,7 +187,7 @@ project/
 │   └── Deploy.oti
 ├── lib/               Installed packages
 │   └── @std/          Standard library (always present)
-├── out/               Build artifacts (.pyc files)
+├── out/               Build artifacts (.json files)
 └── pyde.lock          Lockfile for dependencies
 ```
 
@@ -235,31 +267,24 @@ jobs:
 The `--check` flag on `pyde-dev fmt` returns non-zero if any
 file isn't formatted — useful as a CI gate.
 
-## Wallet management
+## Wallet storage
 
-```sh
-pyde-dev wallet new <name>           Generate a new keypair.
-pyde-dev wallet import <name>        Import an existing private key.
-pyde-dev wallet list                 List stored wallets.
-pyde-dev wallet show <name>          Show address (not the secret).
-pyde-dev wallet sign <name> <data>   Sign arbitrary bytes.
-```
-
-Wallets are stored encrypted with a password the tool prompts
-for. The encryption uses Argon2 + AES-GCM. The encrypted
-material lives at `~/.config/pyde-dev/wallets/`.
+The `pyde-dev wallet` subcommands listed above operate on
+locally-stored encrypted wallets. Wallets are encrypted with a
+password the tool prompts for (Argon2 + AES-GCM); the
+encrypted material lives at `~/.config/pyde-dev/wallets/`.
 
 For CI / scripts, the `--private-key <hex>` flag on
-`pyde-dev script` lets you pass a key without using the
-wallet store. Use this only for *test* keys; never for keys
-that hold real value.
+`pyde-dev script` and `pyde-dev send` lets you pass a key
+without using the wallet store. Use this only for *test*
+keys; never for keys that hold real value.
 
 ## Summary
 
-`otic` compiles `.oti` to `.pyc`. `pyde-dev` is the project
+`otic` compiles `.oti` to `.json`. `pyde-dev` is the project
 tool — scaffold, build, test, deploy, format, console.
 `pyde.toml` is the manifest; `lib/@std/` is the standard
-library; `out/*.pyc` is what you deploy. IDE support is
+library; `out/*.json` is what you deploy. IDE support is
 Tree-sitter-based today; LSP is in flight.
 
 That's the entire toolchain. Most days you'll touch only

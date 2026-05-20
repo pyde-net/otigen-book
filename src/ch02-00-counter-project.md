@@ -56,8 +56,10 @@ Build it:
 
 ```sh
 $ pyde-dev build
-   Compiling Counter.oti
-   Wrote out/Counter.pyc
+  src/Counter.oti — Counter (... bytes, ... instructions)
+  compiled in 0.00s
+
+  1 contract(s) compiled
 ```
 
 A short tour. The `storage { count: u64 }` block declares a single
@@ -137,8 +139,10 @@ Build:
 
 ```sh
 $ pyde-dev build
-   Compiling Counter.oti
-   Wrote out/Counter.pyc
+  src/Counter.oti — Counter (... bytes, ... instructions)
+  compiled in 0.00s
+
+  1 contract(s) compiled
 ```
 
 ## Emitting an event when the count changes
@@ -224,11 +228,24 @@ Run the tests:
 
 ```sh
 $ pyde-dev test
-CounterTest::fresh_counter_is_zero       PASS  (gas: 26_140)
-CounterTest::increment_bumps_one         PASS  (gas: 48_926)
-CounterTest::each_user_has_their_own     PASS  (gas: 52_318)
+  Building contracts...
+  Counter — compiled
+  compiled in 0.00s
 
-  3 passed, 0 failed (32ms)
+  test/Counter.test.oti
+    PASS fresh_counter_is_zero (... gas)
+    PASS increment_bumps_one (... gas)
+    PASS each_user_has_their_own (... gas)
+
+  3 passed, 0 failed, 0 skipped (0.01s)
+
+  Gas Profile
+  Test                          Gas Used   % Limit  Status
+  ----------------------------------------------------
+  each_user_has_their_own        ......     0.xx%  PASS
+  increment_bumps_one            ......     0.xx%  PASS
+  fresh_counter_is_zero          ......     0.xx%  PASS
+  ----------------------------------------------------
 ```
 
 A few things to note about the tests:
@@ -341,8 +358,11 @@ Run them:
 
 ```sh
 $ pyde-dev test --filter max
-CounterTest::first_100_increments_succeed    PASS  (gas: 4_118_300)
-CounterTest::exceeding_the_max_reverts       PASS  (gas: 4_120_500)
+  test/Counter.test.oti
+    PASS first_100_increments_succeed (... gas)
+    PASS exceeding_the_max_reverts (... gas)
+
+  2 passed, 0 failed, 0 skipped (0.01s)
 ```
 
 The 101st `increment` in the second test reverts with `MaxReached`,

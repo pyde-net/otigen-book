@@ -148,7 +148,7 @@ and you have your interface.
 
 ## Interfaces and the ABI
 
-The contract's `.pyc` artifact records every `interface` the
+The contract's `.json` artifact records every `interface` the
 contract declares in its metadata. This is mostly informational —
 the artifact also records the *implementation* of every method
 the contract itself exposes — but tooling that audits cross-

@@ -124,7 +124,7 @@ state, unless you explicitly opted out".
 
 ## What the guard looks like in the metadata
 
-The `.pyc` artifact's metadata includes a `guards` section listing
+The `.json` artifact's metadata includes a `guards` section listing
 every function the compiler wrapped:
 
 ```json

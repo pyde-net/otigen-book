@@ -31,7 +31,7 @@ every storage access:
 
 The compiler collects the set of slots accessed and emits, per
 function, two lists: `reads` and `writes`. These get bundled
-into the `.pyc` artifact alongside the function's bytecode.
+into the `.json` artifact alongside the function's bytecode.
 
 ## The "cleanly inferable" case
 

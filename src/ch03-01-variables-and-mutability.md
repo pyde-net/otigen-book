@@ -80,7 +80,7 @@ When you build the program now, it compiles cleanly:
 ```sh
 $ pyde-dev build
    Compiling Playground.oti
-   Wrote out/Playground.pyc
+   Wrote out/Playground.json
 ```
 
 We're allowed to change the value bound to `x` from `5` to `6` when

@@ -132,7 +132,7 @@ A selector appears in three places:
    time.
 2. **In the calldata** of any cross-contract or external call.
    The first four bytes of every call.
-3. **In the `.pyc` ABI metadata.** Each function's entry
+3. **In the `.json` ABI metadata.** Each function's entry
    includes its computed selector as a 32-bit value — useful
    for tools that need the selector without recomputing it.
 
@@ -140,7 +140,7 @@ The deploy script and the build pipeline can both surface
 selectors when needed:
 
 ```sh
-$ pyde-dev abi out/Token.pyc | grep transfer
+$ pyde-dev abi out/Token.json | grep transfer
 transfer: 0xa9059cbb
 ```
 
@@ -159,4 +159,4 @@ deterministic compile-time computation; it's not
 cryptographically secure but doesn't need to be.
 
 The [next section](ch14-02-json-schema.md) walks through the
-JSON ABI itself — what each entry looks like in a `.pyc` file.
+JSON ABI itself — what each entry looks like in a `.json` file.

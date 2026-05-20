@@ -139,8 +139,8 @@ multisig, a vault), none of this matters. Reorder freely.
 ## A note on slot index visibility
 
 The slot indices the compiler assigns *are* emitted into the
-metadata section of the `.pyc` artifact. If you peek at
-`out/MyContract.pyc` you'll see something like:
+metadata section of the `.json` artifact. If you peek at
+`out/MyContract.json` you'll see something like:
 
 ```json
 "metadata": {
@@ -165,7 +165,7 @@ plain fields the slot index identifies the storage location
 directly; for map entries the location is hashed from
 `(contract_address, slot_index, key)`. Two fields can't collide,
 two contracts can't collide, and the layout is recorded in the
-`.pyc` metadata for downstream tools. Reorder fields freely in a
+`.json` metadata for downstream tools. Reorder fields freely in a
 one-shot contract; never reorder in an upgradeable one.
 
 The [next section](ch04-04-lazy-allocation.md) covers what happens

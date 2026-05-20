@@ -78,7 +78,7 @@ Build it:
 ```sh
 $ pyde-dev build
    Compiling Token.oti
-   Wrote out/PydeToken.pyc
+   Wrote out/PydeToken.json
 ```
 
 It compiles. It even sort-of works: the deployer gets the
@@ -363,7 +363,7 @@ The full contract now exists. Build it:
 ```sh
 $ pyde-dev build
    Compiling Token.oti
-   Wrote out/PydeToken.pyc
+   Wrote out/PydeToken.json
 ```
 
 And write a test suite. We want to verify:
@@ -497,17 +497,20 @@ Run the suite:
 
 ```sh
 $ pyde-dev test
-   Compiling Token.test.oti
+  Building contracts...
+  PydeToken — compiled
+  compiled in 0.01s
 
-TokenTest::deployer_holds_initial_supply         PASS  (gas: 38_140)
-TokenTest::transfer_moves_balance                PASS  (gas: 52_926)
-TokenTest::transfer_to_zero_reverts              PASS  (gas: 27_318)
-TokenTest::transfer_overdraw_reverts             PASS  (gas: 31_500)
-TokenTest::approve_sets_allowance                PASS  (gas: 41_200)
-TokenTest::transfer_from_consumes_allowance      PASS  (gas: 68_180)
-TokenTest::transfer_from_without_allowance_reverts PASS (gas: 34_770)
+  test/Token.test.oti
+    PASS deployer_holds_initial_supply (... gas)
+    PASS transfer_moves_balance (... gas)
+    PASS transfer_to_zero_reverts (... gas)
+    PASS transfer_overdraw_reverts (... gas)
+    PASS approve_sets_allowance (... gas)
+    PASS transfer_from_consumes_allowance (... gas)
+    PASS transfer_from_without_allowance_reverts (... gas)
 
-  7 passed, 0 failed (102ms)
+  7 passed, 0 failed, 0 skipped (0.10s)
 ```
 
 Seven tests, all green. The contract is complete enough to ship.
@@ -533,9 +536,17 @@ Run against the local devnet:
 
 ```sh
 $ pyde-dev script script/Deploy.oti:Deploy --network devnet
-   Deploying PydeToken -> 0xa1b2c3...
-   Deploy complete (gas: 178_440)
+  Deploying PydeToken to devnet...
+  Deployed PydeToken at 0xa1b2c3...
+  Deploy complete
 ```
+
+> **Status note.** `pyde-dev script` against `devnet` requires a
+> running Pyde node serving JSON-RPC. The post-pivot node is
+> being rebuilt against the new consensus; until it ships, the
+> script step won't connect anywhere real. The build and test
+> steps above don't need a node — `test` runs against the
+> embedded PVM in-process.
 
 The address is what you'd hand out to a wallet that wants to
 talk to the token.

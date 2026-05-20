@@ -143,8 +143,8 @@ contracts; not everything needs to be upgradable.
 
 Two tools help catch breaking changes before they ship:
 
-**ABI diffing.** `pyde-dev abi-diff old.pyc new.pyc` (when
-available) compares two `.pyc` files' ABIs and lists every
+**ABI diffing.** `pyde-dev abi-diff old.json new.json` (when
+available) compares two `.json` files' ABIs and lists every
 change, marked as breaking or non-breaking. A pre-deploy check
 that the diff is clean is a useful CI gate.
 
