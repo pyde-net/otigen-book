@@ -1,4 +1,14 @@
-# The Otigen Programming Language
+<p align="center">
+  <img src="./assets/logo.png" width="120" alt="Pyde logo" />
+</p>
+
+<h1 align="center">The Otigen Programming Language</h1>
+
+<p align="center">
+  <em>The smart-contract language for the Pyde blockchain</em>
+</p>
+
+---
 
 A learning book for **Otigen**, the smart-contract language that targets the
 [Pyde](https://github.com/pyde-net) blockchain.
