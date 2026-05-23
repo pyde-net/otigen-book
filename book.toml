@@ -1,16 +1,17 @@
 [book]
 title = "The Otigen Programming Language"
-authors = ["The Pyde Project"]
+authors = ["Pyde Network"]
 language = "en"
 src = "src"
-description = "A learning book for Otigen, the smart-contract language of the Pyde blockchain."
+description = "Historical reference for Otigen — the smart-contract language Pyde used before pivoting its execution layer to WebAssembly. Preserved as documentation of the language's design and the lessons it carries into Pyde's current toolchain."
 
 [output.html]
 default-theme = "rust"
 preferred-dark-theme = "ayu"
 git-repository-url = "https://github.com/pyde-net/otigen-book"
 edit-url-template = "https://github.com/pyde-net/otigen-book/edit/main/{path}"
-additional-css = []
+additional-css = ["theme/pyde-brand.css"]
+additional-js = []
 no-section-label = false
 
 [output.html.fold]

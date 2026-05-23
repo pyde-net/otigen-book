@@ -1,3 +1,6 @@
 /book/
 target/
 *.bk
+
+# Generated each build by scripts/build-sitemap.mjs. Not source.
+src/sitemap.xml

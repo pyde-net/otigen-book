@@ -1,5 +1,6 @@
 # The Otigen Programming Language
 
+[A Note Before You Read This Book](pivot-notice.md)
 [Foreword](foreword.md)
 [Introduction](introduction.md)
 

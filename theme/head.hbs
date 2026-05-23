@@ -1,0 +1,105 @@
+{{!--
+  Per-page <head> injection for the Otigen Book.
+
+  This book is a HISTORICAL reference for a retired language. Social
+  previews and meta descriptions are written to make that clear up
+  front — a casual visitor who lands here from a search result should
+  immediately see "historical" in the card title, not have to click
+  through to the pivot-notice page to find out.
+
+  mdBook handlebars variables available:
+  - `book_title`     — value of `title` in book.toml
+  - `description`    — value of `description` in book.toml
+  - `chapter_title`  — heading of the current page (or book_title at root)
+  - `path_to_root`   — relative `../../`-style path back to root
+  - `path`           — current page's path relative to root, with `.html`
+--}}
+
+{{!-- ── Favicons / web app icons / platform meta ───────────────────── --}}
+<link rel="icon" type="image/png" sizes="16x16" href="{{ path_to_root }}assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ path_to_root }}assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="{{ path_to_root }}assets/favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ path_to_root }}assets/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ path_to_root }}assets/android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ path_to_root }}assets/apple-touch-icon.png">
+<link rel="manifest" href="{{ path_to_root }}site.webmanifest">
+<meta name="msapplication-config" content="{{ path_to_root }}browserconfig.xml">
+<meta name="msapplication-TileColor" content="#0d1117">
+<meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+
+{{!-- ── SEO core ────────────────────────────────────────────────────── --}}
+<meta name="description" content="Historical reference for Otigen — the smart-contract language Pyde used before pivoting its execution layer to WebAssembly. Preserved as documentation of the design and the lessons it carries into Pyde's current toolchain.">
+<meta name="keywords" content="Otigen, Pyde, smart contract language, blockchain, Layer 1, PVM, otic, wright, post-quantum, historical, retired language, design reference">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Pyde Network">
+<link rel="canonical" href="https://otigen-book.pyde.network/{{ path }}">
+
+{{!-- Apple PWA hints — book is installable on iOS home screen. --}}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Otigen Book">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no, address=no, email=no">
+
+{{!--
+  ── Open Graph ──────────────────────────────────────────────────────
+  Title is suffixed with "Historical Reference" so social cards
+  surface the retired status immediately. A reader scrolling Twitter
+  / LinkedIn / Slack who sees this card should not be misled into
+  thinking Otigen is Pyde's current language.
+--}}
+<meta property="og:site_name" content="The Otigen Programming Language">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{#if chapter_title}}{{ chapter_title }} — Otigen (Historical Reference){{else}}The Otigen Programming Language — Historical Reference{{/if}}">
+<meta property="og:description" content="Historical reference for Otigen — the smart-contract language Pyde used before pivoting its execution layer to WebAssembly. Not Pyde's current execution model.">
+<meta property="og:url" content="https://otigen-book.pyde.network/{{ path }}">
+<meta property="og:image" content="https://otigen-book.pyde.network/assets/android-chrome-512x512.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="Pyde — a post-quantum, MEV-resistant Layer 1 blockchain">
+<meta property="og:locale" content="en_US">
+
+{{!-- ── Twitter / X Card ───────────────────────────────────────────── --}}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@pydenet">
+<meta name="twitter:creator" content="@pydenet">
+<meta name="twitter:title" content="{{#if chapter_title}}{{ chapter_title }} — Otigen (Historical Reference){{else}}The Otigen Programming Language — Historical Reference{{/if}}">
+<meta name="twitter:description" content="Historical reference for Otigen — the smart-contract language Pyde used before pivoting its execution layer to WebAssembly.">
+<meta name="twitter:image" content="https://otigen-book.pyde.network/assets/android-chrome-512x512.png">
+<meta name="twitter:image:alt" content="Pyde — a post-quantum, MEV-resistant Layer 1 blockchain">
+
+{{!--
+  ── JSON-LD ──────────────────────────────────────────────────────────
+  TechArticle for each page. The publisher block points back at the
+  main pyde.network entity so the Otigen book is tied to the same
+  parent in search engines' graphs as the current Pyde Book.
+--}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "{{#if chapter_title}}{{ chapter_title }}{{else}}The Otigen Programming Language{{/if}}",
+  "description": "Historical reference for Otigen — the smart-contract language Pyde used before pivoting to WebAssembly execution.",
+  "url": "https://otigen-book.pyde.network/{{ path }}",
+  "image": "https://otigen-book.pyde.network/assets/android-chrome-512x512.png",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "Book",
+    "name": "The Otigen Programming Language",
+    "url": "https://otigen-book.pyde.network/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Pyde",
+    "url": "https://pyde.network",
+    "logo": "https://otigen-book.pyde.network/assets/android-chrome-512x512.png",
+    "sameAs": [
+      "https://github.com/pyde-net",
+      "https://x.com/pydenet",
+      "https://t.me/pydenet"
+    ]
+  },
+  "license": "https://www.apache.org/licenses/LICENSE-2.0"
+}
+</script>
