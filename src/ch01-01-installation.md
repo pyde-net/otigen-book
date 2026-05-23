@@ -64,12 +64,17 @@ one, follow the instructions at
 Then clone the relevant repositories and install:
 
 ```sh
+# NOTE: This book is the historical Otigen Language reference (pre-pivot).
+# The engine and dev repos were retired by the WASM pivot. Pre-pivot crates
+# the retired tools depend on live in pyde-net/archive; clone that instead
+# to build the retired toolchain against its original types.
+
 $ git clone https://github.com/pyde-net/otic.git
-$ git clone https://github.com/pyde-net/dev.git
-$ git clone https://github.com/pyde-net/engine.git
+$ git clone https://github.com/pyde-net/wright.git    # was: pyde-net/dev
+$ git clone https://github.com/pyde-net/archive.git   # was: pyde-net/engine
 
 $ cargo install --path otic
-$ cargo install --path dev
+$ cargo install --path wright
 ```
 
 The two `cargo install` commands compile and copy the binaries into
