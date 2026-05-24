@@ -45,11 +45,52 @@ lifecycle. The *language* described in this book does not.
 
 ---
 
-## Reading it
+## Reading the book
 
-Online: <https://otigen-book.pyde.network> (deployed via AWS Amplify).
+Browse the chapters directly on GitHub. Each one is a standalone
+markdown file under `src/` that renders inline, and the cross-chapter
+links inside them follow correctly within the repository.
 
-Locally:
+Start here:
+
+- **[A Note Before You Read This Book](src/pivot-notice.md)** — framing for why this book is preserved as a historical artifact
+- **[Foreword](src/foreword.md)**
+- **[Introduction](src/introduction.md)**
+- **[Table of contents](src/SUMMARY.md)** — full chapter and appendix list
+
+Or jump straight in:
+
+- [Chapter 1 — Getting Started](src/ch01-00-getting-started.md)
+- [Chapter 2 — Programming a Counter](src/ch02-00-counter-project.md)
+- [Chapter 3 — Common Programming Concepts](src/ch03-00-common-concepts.md)
+- [Chapter 4 — Storage and Maps](src/ch04-00-storage-and-maps.md)
+- [Chapter 5 — Structs, Enums, and Pattern Matching](src/ch05-00-structs-enums.md)
+- [Chapter 6 — Errors and Reverts](src/ch06-00-errors.md)
+- [Chapter 7 — Events and Logs](src/ch07-00-events.md)
+- [Chapter 8 — Function Attributes](src/ch08-00-attributes.md)
+- [Chapter 9 — Reentrancy](src/ch09-00-reentrancy.md)
+- [Chapter 10 — Cross-Contract Calls](src/ch10-00-cross-contract.md)
+- [Chapter 11 — Checked Arithmetic](src/ch11-00-checked-arithmetic.md)
+- [Chapter 12 — Project: ERC-20-Style Token](src/ch12-00-project-token.md)
+- [Chapter 13 — The Pyde Virtual Machine](src/ch13-00-pvm.md)
+- [Chapter 14 — The ABI](src/ch14-00-abi.md)
+- [Chapter 15 — Access Lists](src/ch15-00-access-lists.md)
+- [Chapter 16 — Threshold Encryption](src/ch16-00-threshold-encryption.md)
+- [Chapter 17 — Project: Multisig Wallet](src/ch17-00-project-multisig.md)
+- [Chapter 18 — Project: A Minimal DEX](src/ch18-00-project-dex.md)
+
+Appendices:
+
+- [A — Keywords](src/appendix-a-keywords.md)
+- [B — Operators](src/appendix-b-operators.md)
+- [C — Built-ins](src/appendix-c-builtins.md)
+- [D — Errors](src/appendix-d-errors.md)
+- [E — Solidity Cheatsheet](src/appendix-e-solidity-cheatsheet.md)
+- [F — Tooling](src/appendix-f-tooling.md)
+
+### Or build it locally
+
+If you want the rendered mdBook experience (sidebar navigation, search, theme toggle):
 
 ```sh
 cargo install mdbook
