@@ -1,5 +1,32 @@
 # Installation
 
+> ⚠ **Historical reference — do not run these commands.**
+>
+> This book documents the retired Otigen smart-contract language. The
+> `otic`, `wright`, `pyde-vm`, and `pyde-aot` toolchain referenced
+> below was archived in the May 2026 WASM pivot and is no longer
+> compatible with current Pyde.
+>
+> - The `install.pyde.network/otup` endpoint is **not deployed** and
+>   will not be deployed — the curl command below will fail.
+> - The GitHub repositories `pyde-net/otic` and `pyde-net/wright` are
+>   **archived and read-only**; cloning them gives you a snapshot of
+>   the retired toolchain, not anything Pyde currently ships.
+> - Building from source produces binaries that **do not interoperate
+>   with current Pyde mainnet/testnet** (different execution model,
+>   different host functions, different VM).
+>
+> The current Pyde execution model is WebAssembly via wasmtime;
+> contracts are authored in Rust, AssemblyScript, Go (TinyGo), or
+> C/C++ — any wasm32-target language. For active developer
+> instructions, see the [Pyde Book](https://book.pyde.network),
+> starting with the [Get Started — for Developers](https://book.pyde.network/preface/get-started-for-developers.html)
+> page.
+>
+> The text below is preserved for archival completeness only.
+
+---
+
 The first step is to install the Otigen toolchain. You'll end up with
 two binaries:
 
