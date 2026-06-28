@@ -5,24 +5,31 @@
 <h1 align="center">The Otigen Programming Language</h1>
 
 <p align="center">
-  <em>Historical reference. Otigen is no longer Pyde's execution model.</em>
+  <em>Historical reference. The Otigen <strong>language</strong> documented here is retired — the name <code>otigen</code> was recycled for Pyde's current developer toolchain.</em>
 </p>
 
 ---
 
-This is the long-form book for **Otigen**, a smart-contract language
-Pyde designed and built during an earlier phase of the project. Pyde
-has since pivoted its execution layer to **WebAssembly via wasmtime**;
-contracts on the current chain are authored in Rust, AssemblyScript,
-Go (TinyGo), or C/C++. The Otigen-the-language compiler (`otic`), the
-Otigen-specific developer tool (`wright`), and the custom virtual
-machine + AOT compiler (`pyde-vm` / `pyde-aot`) are all retired.
+This is the book for a language Pyde **shipped, used, and retired.**
+**Otigen** was a Rust-flavored smart-contract language designed
+specifically for Pyde's execution layer — complete with its own
+compiler (`otic`), virtual machine (`pyde-vm` / `pyde-aot`), and
+developer tool (`wright`). When Pyde pivoted its execution layer to
+**WebAssembly via wasmtime**, the language, the compiler, the VM, and
+the tool were all retired in a single deliberate cut. Contracts on the
+current chain are authored in Rust, AssemblyScript, Go (TinyGo), or
+C/C++ and run on the new toolchain that inherited the name `otigen` —
+a clean break that kept nothing but the brand.
 
 **The book is preserved as a historical artifact** — not deleted, not
-hidden — because the design space is documented thoroughly and the
-lessons live on in Pyde's current toolchain. The first chapter you'll
-see on the rendered site, [A Note Before You Read This Book](src/pivot-notice.md),
-sets the framing in full.
+hidden — because the design space is documented end-to-end and the
+lessons it surfaces shaped what came after. Sixty-five thousand words,
+eighteen chapters, six appendices, all frozen at the moment of the
+pivot. A complete map of a path Pyde took and chose to leave. If you
+care about how chains and languages co-design, why Pyde reached for
+its own syntax and then walked back, or what gets kept when a project
+changes direction — start with [A Note Before You Read This Book](src/pivot-notice.md),
+which sets the framing in full, and keep going.
 
 If you arrived here looking for **current Pyde development**, read
 [the Pyde Book](https://book.pyde.network) — start with
@@ -38,10 +45,10 @@ model and the current `otigen` developer toolchain.
 six reference appendices. ~65,000 words. Frozen at the moment the WASM
 pivot landed; will not be updated.
 
-The Otigen *name* lives on in Pyde's current developer toolchain — a
+The Otigen _name_ lives on in Pyde's current developer toolchain — a
 binary that scaffolds projects, generates state bindings, builds WASM
 artifacts in the author's chosen language, and handles the deploy
-lifecycle. The *language* described in this book does not.
+lifecycle. The _language_ described in this book does not.
 
 ---
 
